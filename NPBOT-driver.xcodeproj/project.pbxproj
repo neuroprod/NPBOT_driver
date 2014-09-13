@@ -1,0 +1,82 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		012A568919C41B9D006BFC1C /* Ticker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Ticker.cpp; sourceTree = "<group>"; };
+		012A568A19C41B9D006BFC1C /* Ticker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Ticker.h; sourceTree = "<group>"; };
+		012A568B19C41BB2006BFC1C /* Axis.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Axis.cpp; sourceTree = "<group>"; };
+		012A568C19C41BB2006BFC1C /* Axis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Axis.h; sourceTree = "<group>"; };
+		012A568D19C41BCB006BFC1C /* NPBOT.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPBOT.cpp; sourceTree = "<group>"; };
+		012A568E19C41BCB006BFC1C /* NPBOT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NPBOT.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		012A568219C41B84006BFC1C = {
+			isa = PBXGroup;
+			children = (
+				012A568D19C41BCB006BFC1C /* NPBOT.cpp */,
+				012A568E19C41BCB006BFC1C /* NPBOT.h */,
+				012A568B19C41BB2006BFC1C /* Axis.cpp */,
+				012A568C19C41BB2006BFC1C /* Axis.h */,
+				012A568919C41B9D006BFC1C /* Ticker.cpp */,
+				012A568A19C41B9D006BFC1C /* Ticker.h */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		012A568319C41B84006BFC1C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+			};
+			buildConfigurationList = 012A568619C41B84006BFC1C /* Build configuration list for PBXProject "NPBOT-driver" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 012A568219C41B84006BFC1C;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		012A568719C41B84006BFC1C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		012A568819C41B84006BFC1C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		012A568619C41B84006BFC1C /* Build configuration list for PBXProject "NPBOT-driver" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				012A568719C41B84006BFC1C /* Debug */,
+				012A568819C41B84006BFC1C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 012A568319C41B84006BFC1C /* Project object */;
+}
