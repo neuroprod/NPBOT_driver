@@ -13,6 +13,7 @@
 		012A568C19C41BB2006BFC1C /* Axis.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Axis.h; sourceTree = "<group>"; };
 		012A568D19C41BCB006BFC1C /* NPBOT.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPBOT.cpp; sourceTree = "<group>"; };
 		012A568E19C41BCB006BFC1C /* NPBOT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NPBOT.h; sourceTree = "<group>"; };
+		012A568F19C42462006BFC1C /* Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -25,6 +26,7 @@
 				012A568C19C41BB2006BFC1C /* Axis.h */,
 				012A568919C41B9D006BFC1C /* Ticker.cpp */,
 				012A568A19C41B9D006BFC1C /* Ticker.h */,
+				012A568F19C42462006BFC1C /* Vector.h */,
 			);
 			sourceTree = "<group>";
 		};

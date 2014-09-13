@@ -18,8 +18,59 @@ void NPBOT::setup()
 
 
     Serial.begin(115200);
-    Serial.println("test");
+    isHomeing =false;
+    previousMicros =0;
+    // pull - dir
+    axis1.setup(30,53);
+    axis1.
+    axis2.setup(32,51);
+    
+   
 
-
+    
+    
+    ticker.addAxis(&axis1);
+    ticker.addAxis(&axis2);
+    ticker.setup();
 }
-void NPBOT::update(){}
+
+
+void NPBOT::update()
+{
+    if(Serial.available()){
+        while(Serial.available())
+        {
+            Serial.read();
+            //int numbytes  =Serial.readBytesUntil(serialEnd, serialData, bufferSize);
+        }
+        Serial.println("got it");
+       
+        axis1.goHome();
+        axis2.goHome();
+        isHomeing =true;
+        
+        //axis1.setSteps(1000,false,1000);
+        //axis2.setSteps(500,true,1000);
+        //ticker.setTicks(1000 );
+        
+    }
+    
+    
+    
+    unsigned long currentMicros = micros();
+    unsigned long timeStep = currentMicros- previousMicros;
+    previousMicros =currentMicros;
+    if(isHomeing)
+    {
+        homeTime +=timeTime;
+        if(startTime >500)
+        {
+            
+            startTime -=500;
+        
+    }
+    else
+    {
+        ticker.update(timeStep);
+    }
+}
