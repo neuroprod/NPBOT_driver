@@ -70,8 +70,6 @@ void Axis::tickOn()
 
 void Axis::tickOff()
 {
-    
-
     digitalWrite(pullPin, LOW);
 }
 

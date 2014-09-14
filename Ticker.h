@@ -26,9 +26,26 @@ public:
     void update(double timeElapsed);
 
     Vector<Axis *> axises;
-    int ticksLeft;
+   
     bool pulsOn ;
     double startTime;
+    
+   void setIntervalForNextTick();
+    
+    int  ticksDone;
+    int totalTicks;
+    int  totalTime;
+    
+    float maxSpeed ;
+    float accTime ;
+    float acceleration ;
+    int ticksTillMaxSpeed;
+    
+    int tickInterval;
+    int maxInterval;
+    int fullSpeedTick;
+    int slowDownTick;
+    int getIntervalForAccTick(int tick );
 };
 
 #endif /* defined(__NPBOT_driver__Ticker__) */

@@ -18,9 +18,21 @@ void Ticker::setup()
 {
 
     pulsOn =false;
-    ticksLeft =0;
+  
+    maxInterval  = 100;//micro
+    float maxInterValSec =(float )maxInterval/1000000.0f; //micro to sec
     
+    float maxSpeed =1.0f/maxInterValSec;  //steps/sec
+  
+    
+    
+    accTime =0.5f;
+    
+    
+    acceleration = (float)maxSpeed /accTime;  //speed/sec
+    ticksTillMaxSpeed = acceleration *accTime*accTime/2 ;  //d= a* (t*t)  /2
 
+   
 }
 void Ticker::addAxis(Axis * axis )
 {
@@ -31,21 +43,42 @@ void Ticker::addAxis(Axis * axis )
 void Ticker::setTicks(int numTicks )
 {
     startTime =0;
-    ticksLeft =numTicks;
+    ticksDone =0;
+    totalTicks  =numTicks;
+    
+    if(totalTicks< 2* ticksTillMaxSpeed)
+    {
+        fullSpeedTick = slowDownTick = numTicks/2;
+    
+    }else
+    {
+        fullSpeedTick =ticksTillMaxSpeed;
+        slowDownTick =totalTicks-ticksTillMaxSpeed;
+    }
+    
+    
+    
+    setIntervalForNextTick();
 }
 
 void Ticker::update(double timeElapsed)
 {
     
-    if(ticksLeft ==0) return;
+    if(ticksDone ==totalTicks) return;
     
     
     
     startTime +=timeElapsed;
-    if(startTime >500)
+    
+    totalTime += timeElapsed;
+    
+    
+    
+   
+    if(startTime >tickInterval)
     {
     
-        startTime -=500;
+        startTime -=tickInterval;
         
         
         if(pulsOn)
@@ -55,7 +88,7 @@ void Ticker::update(double timeElapsed)
              axises[i]->tickOn();
             }
        
-            ticksLeft --;
+             ticksDone ++;
             
             pulsOn =false;
             
@@ -66,7 +99,7 @@ void Ticker::update(double timeElapsed)
             {
                axises[i]->tickOff();
             }
-           
+            setIntervalForNextTick();
         
             pulsOn =true;
         
@@ -75,3 +108,37 @@ void Ticker::update(double timeElapsed)
     
 
 }
+
+void Ticker::setIntervalForNextTick()
+{
+
+    if(ticksDone>fullSpeedTick &&  ticksDone<slowDownTick )
+    {
+        tickInterval = maxInterval;
+        
+        
+    }else if (ticksDone<=fullSpeedTick)
+    {
+    
+        tickInterval =getIntervalForAccTick(ticksDone+1);
+    
+    }else
+    {
+        tickInterval =getIntervalForAccTick(totalTicks -ticksDone);
+
+    
+    }
+   
+}
+
+int Ticker::getIntervalForAccTick(int tick )
+{
+  
+    float timesqr =(float)tick / (0.5f *acceleration) ;
+    float time  = sqrt (timesqr); //time for tick
+    float speed  =acceleration*time;
+    
+    return 1000000/speed ;// ticks/sec->micro delay
+
+}
+

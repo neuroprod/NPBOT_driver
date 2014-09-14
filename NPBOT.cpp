@@ -48,16 +48,16 @@ void NPBOT::update()
         
         ///// homing
         
-        axis1.startHoming();
-        isHomeing =true;
+        //axis1.startHoming();
+        //isHomeing =true;
         
         
         /////  normal steps
         
         
-        //axis1.setSteps(1000,false,1000);
-        //axis2.setSteps(500,true,1000);
-        //ticker.setTicks(1000 );
+        axis1.setSteps(20000,false,20000);
+        axis2.setSteps(1000,true,20000);
+        ticker.setTicks(20000 );
         
     }
     
