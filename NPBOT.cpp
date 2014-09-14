@@ -22,9 +22,9 @@ void NPBOT::setup()
     previousMicros =0;
     // pull - dir
     axis1.setup(30,53);
-    axis1.
+    axis1.setupHomingParams(true,400, 7);
     axis2.setup(32,51);
-    
+    axis2.setupHomingParams(true,200, 6);
    
 
     
@@ -45,9 +45,15 @@ void NPBOT::update()
         }
         Serial.println("got it");
        
-        axis1.goHome();
-        axis2.goHome();
+        
+        ///// homing
+        
+        axis1.startHoming();
         isHomeing =true;
+        
+        
+        /////  normal steps
+        
         
         //axis1.setSteps(1000,false,1000);
         //axis2.setSteps(500,true,1000);
@@ -62,12 +68,14 @@ void NPBOT::update()
     previousMicros =currentMicros;
     if(isHomeing)
     {
-        homeTime +=timeTime;
-        if(startTime >500)
+        if(!axis1.isHome){
+            axis1.stepHoming(timeStep);
+        }else
         {
-            
-            startTime -=500;
+            axis2.stepHoming(timeStep);
+
         
+        }
     }
     else
     {

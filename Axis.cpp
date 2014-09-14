@@ -11,6 +11,8 @@
 Axis::Axis(){}
 void Axis::setup(int _pullPin,int _dirPin)
 {
+    isHome =false;
+    
     pullPin  =_pullPin;
     dirPin  =_dirPin;
     
@@ -52,7 +54,7 @@ void Axis::tickOn()
     else
     {
     
-        pinMode(pullPin, HIGH);
+       digitalWrite(pullPin, HIGH);
         if(dir )
         {
             position++;
@@ -74,13 +76,51 @@ void Axis::tickOff()
 }
 
 ////homeing
-void Axis::setupHomingParams(bool dir,int stepDelay)
+void Axis::setupHomingParams(bool _dir,int _stepDelay, int _homePin)
 {
-
-
+  
+    homePin =_homePin;
+    homeDir =_dir;
+    homeStepDelay =_stepDelay;
+    
+    
+    pinMode(homePin, INPUT);
+    
+   
+  
 }
-void Axis::goHome()
+void Axis::startHoming()
 {
-
-    position =0;
+    homeTime =0;
+    isHome =false;
+    digitalWrite(dirPin, homeDir );
+    homePullToggle =true;
+    Serial.println("stratAxis1");
 }
+void Axis::stepHoming(double timeElapsed)
+{
+    if(isHome) return;
+
+    homeTime += timeElapsed;
+    if(homeTime>homeStepDelay)
+    {
+        homeTime-=homeStepDelay;
+        if(homePullToggle)
+        {
+            digitalWrite(pullPin, HIGH);
+        
+        }else
+        {
+            digitalWrite(pullPin, LOW);
+            if(digitalRead(homePin))
+            {
+                isHome =true;
+            
+            }
+        
+        }
+        homePullToggle =!homePullToggle;
+    
+    }
+}
+

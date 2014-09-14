@@ -38,11 +38,17 @@ public:
     
     
     ////homeing
-    void setupHomingParams(,bool dir,int stepDelay);
-    void goHome();
+    void setupHomingParams(bool dir,int stepDelay,int homePin);
+    void startHoming();
+    void stepHoming(double timeElapsed);
+    
     bool isHome;
 
-
+    double homeTime;
+    bool homePullToggle;
+    int homePin;
+    bool homeDir;
+    int homeStepDelay;
 
 
 
