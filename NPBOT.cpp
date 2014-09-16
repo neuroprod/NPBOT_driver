@@ -10,7 +10,7 @@
 #include <Arduino.h>
 
 
-NPBOT::NPBOT(){}
+NPBOT::NPBOT() : serialEnd(  0xff ){}
 
 void NPBOT::setup()
 {
@@ -22,45 +22,81 @@ void NPBOT::setup()
     previousMicros =0;
     // pull - dir
     axis1.setup(30,53);
-    axis1.setupHomingParams(true,400, 7);
+    axis1.setupHomingParams(false,1000, 7);
+    
     axis2.setup(32,51);
-    axis2.setupHomingParams(true,200, 6);
-   
+    axis2.setupHomingParams(true,1000, 6);
+    
+    axis3.setup(32,51);
+    axis3.setupHomingParams(true,1000, 5);
+    
+    axis4.setup(32,51);
+    axis4.setupHomingParams(true,1000, 4);
 
+    axis5.setup(32,51);
+    axis5.setupHomingParams(true,1000, 3);
+    
+    axis6.setup(32,51);
+    axis6.setupHomingParams(true,1000, 2);
+    
+    
+    axises.push_back(&axis1);
+    axises.push_back(&axis2);
+    axises.push_back(&axis3);
+    axises.push_back(&axis4);
+    axises.push_back(&axis5);
+    axises.push_back(&axis6);
     
     
     ticker.addAxis(&axis1);
     ticker.addAxis(&axis2);
+     ticker.addAxis(&axis3);
+     ticker.addAxis(&axis4);
+     ticker.addAxis(&axis5);
+     ticker.addAxis(&axis6);
+    
     ticker.setup();
 }
-
+void NPBOT::checkSerial()
+{
+    int numbytes =0;
+    if(Serial.available()){
+        numbytes  =Serial.readBytesUntil(serialEnd, serialData, 80);
+    }
+    
+    if(numbytes>0)
+    {
+        int command = serialData[0];
+        if(command==0)
+        {
+            axis1.startHoming();
+           // axis2.startHoming();
+            isHomeing =true;
+        
+        }else if(command==1)
+        {
+            int maxSteps =0;
+            
+            int target = serialData[2]*10000 +serialData[3]*100+serialData[4];
+           
+            
+            
+           maxSteps = axis1.setTargetPos(target);
+           
+            axis1.startStepping(maxSteps);
+            ticker.setTicks(maxSteps );
+        
+        }
+    }
+}
 
 void NPBOT::update()
 {
-    if(Serial.available()){
-        while(Serial.available())
-        {
-            Serial.read();
-            //int numbytes  =Serial.readBytesUntil(serialEnd, serialData, bufferSize);
-        }
-        Serial.println("got it");
-       
-        
-        ///// homing
-        
-        axis1.startHoming();
-        axis2.startHoming();
-        isHomeing =true;
-        
-        
-        /////  normal steps
-        
-        /*
-        axis1.setSteps(20000,false,20000);
-        axis2.setSteps(1000,true,20000);
-        ticker.setTicks(20000 );
-        */
-    }
+   
+    
+    checkSerial();
+    
+  
     
     
     
@@ -73,7 +109,7 @@ void NPBOT::update()
             axis1.stepHoming(timeStep);
         }else
         {
-            axis2.stepHoming(timeStep);
+            isHomeing =false;
 
         
         }

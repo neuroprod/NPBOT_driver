@@ -19,14 +19,24 @@ public:
     
     void setup();
     void update();
-
+    void checkSerial();
 
     
     Ticker ticker;
     Axis axis1;
     Axis axis2;
+    Axis axis3;
+    Axis axis4;
+    Axis axis5;
+    Axis axis6;
+  
     unsigned long previousMicros ;
     bool isHomeing;
+    Vector<Axis *> axises;
+    
+    
+    char serialData[80];
+     char serialEnd ;
 };
 
 #endif /* defined(__NPBOT_driver__NPBOT__) */

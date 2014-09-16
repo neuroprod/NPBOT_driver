@@ -12,15 +12,44 @@ Axis::Axis(){}
 void Axis::setup(int _pullPin,int _dirPin)
 {
     isHome =false;
-    
+    position =0;
     pullPin  =_pullPin;
     dirPin  =_dirPin;
     
     pinMode(pullPin, OUTPUT);
     pinMode(dirPin, OUTPUT);
 }
+int Axis::setTargetPos(int tarPosition)
+{
+   
+    stepsTodo = position -tarPosition;
+    
+    if(stepsTodo <0)
+    {
+        dir =false;
+        stepsTodo *=-1;
+    }else
+    {
+    
+        dir =true;
+    }
+    return stepsTodo;
+
+}
+void Axis::startStepping (int maxAxisSteps)
+{
+     digitalWrite(dirPin, dir);
+    
+    
+    dx =maxAxisSteps;
+    dy = stepsTodo;
+    px=dy-dx;
+    py=dx-dy;
+    
+    digitalWrite(pullPin, LOW);
 
 
+}
 void Axis::setSteps (int steps, bool _dir, int maxAxisSteps)
 {
     dir =_dir;

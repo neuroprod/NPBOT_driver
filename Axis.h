@@ -18,6 +18,9 @@ public:
     
     
     void setSteps (int steps,bool dir,int maxAxisSteps);
+    int setTargetPos(int tarPosition);
+    void startStepping (int maxAxisSteps);
+    
     
     void tickOn();
 
@@ -30,7 +33,7 @@ public:
     int dirPin;
     
     int position;
-    
+    int stepsTodo;
     int dx;
     int dy;
     int px;
