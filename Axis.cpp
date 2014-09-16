@@ -18,11 +18,13 @@ void Axis::setup(int _pullPin,int _dirPin)
     
     pinMode(pullPin, OUTPUT);
     pinMode(dirPin, OUTPUT);
+    digitalWrite(dirPin, LOW);
+    digitalWrite(pullPin, LOW);
 }
 int Axis::setTargetPos(int tarPosition)
 {
    
-    stepsTodo = position -tarPosition;
+    stepsTodo = tarPosition-position;
     
     if(stepsTodo <0)
     {
@@ -33,6 +35,7 @@ int Axis::setTargetPos(int tarPosition)
     
         dir =true;
     }
+   
     return stepsTodo;
 
 }
@@ -121,8 +124,8 @@ void Axis::startHoming()
     homeTime =0;
     isHome =false;
     digitalWrite(dirPin, homeDir );
-    homePullToggle =true;
-    Serial.println("stratAxis1");
+    homePullToggle =false;
+   
 }
 void Axis::stepHoming(double timeElapsed)
 {
@@ -135,6 +138,7 @@ void Axis::stepHoming(double timeElapsed)
         if(homePullToggle)
         {
             digitalWrite(pullPin, HIGH);
+            Serial.println("h");
         
         }else
         {

@@ -87,7 +87,7 @@ void Ticker::update(double timeElapsed)
             {
              axises[i]->tickOn();
             }
-       
+       //Serial.write(1);
              ticksDone ++;
             
             pulsOn =false;

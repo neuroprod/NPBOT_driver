@@ -21,22 +21,22 @@ void NPBOT::setup()
     isHomeing =false;
     previousMicros =0;
     // pull - dir
-    axis1.setup(30,53);
+    axis1.setup(36,37);
     axis1.setupHomingParams(false,1000, 7);
     
-    axis2.setup(32,51);
+    axis2.setup(47,46);
     axis2.setupHomingParams(true,1000, 6);
     
-    axis3.setup(32,51);
+    axis3.setup(50,51);
     axis3.setupHomingParams(true,1000, 5);
     
-    axis4.setup(32,51);
+    axis4.setup(53,52);
     axis4.setupHomingParams(true,1000, 4);
 
-    axis5.setup(32,51);
+    axis5.setup(45,44);
     axis5.setupHomingParams(true,1000, 3);
     
-    axis6.setup(32,51);
+    axis6.setup(43,42);
     axis6.setupHomingParams(true,1000, 2);
     
     
@@ -49,11 +49,11 @@ void NPBOT::setup()
     
     
     ticker.addAxis(&axis1);
-    ticker.addAxis(&axis2);
-     ticker.addAxis(&axis3);
-     ticker.addAxis(&axis4);
-     ticker.addAxis(&axis5);
-     ticker.addAxis(&axis6);
+    //ticker.addAxis(&axis2);
+     //ticker.addAxis(&axis3);
+     //ticker.addAxis(&axis4);
+     //ticker.addAxis(&axis5);
+     //ticker.addAxis(&axis6);
     
     ticker.setup();
 }
@@ -61,7 +61,7 @@ void NPBOT::checkSerial()
 {
     int numbytes =0;
     if(Serial.available()){
-        numbytes  =Serial.readBytesUntil(serialEnd, serialData, 80);
+        numbytes  =Serial.readBytesUntil(0xff , serialData, 80);
     }
     
     if(numbytes>0)
@@ -69,6 +69,7 @@ void NPBOT::checkSerial()
         int command = serialData[0];
         if(command==0)
         {
+            Serial.println("homing");
             axis1.startHoming();
            // axis2.startHoming();
             isHomeing =true;
@@ -79,12 +80,11 @@ void NPBOT::checkSerial()
             
             int target = serialData[2]*10000 +serialData[3]*100+serialData[4];
            
-            
-            
-           maxSteps = axis1.setTargetPos(target);
+                       maxSteps = axis1.setTargetPos(target);
            
             axis1.startStepping(maxSteps);
             ticker.setTicks(maxSteps );
+            
         
         }
     }
@@ -110,12 +110,13 @@ void NPBOT::update()
         }else
         {
             isHomeing =false;
-
+Serial.println("homing done");
         
         }
     }
     else
     {
+        
         ticker.update(timeStep);
     }
 }
