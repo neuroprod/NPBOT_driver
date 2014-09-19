@@ -21,36 +21,36 @@ void NPBOT::setup()
     isHomeing =false;
     previousMicros =0;
     // pull - dir
-    axis1.setup(36,37);
+    axis1.setup(48,49,true);
     axis1.setupHomingParams(false,1000, 7);
     
-    axis2.setup(47,46);
-    axis2.setupHomingParams(true,1000, 6);
+    axis2.setup(47,46,false);
+    axis2.setupHomingParams(true,5000, 6);
     
-    axis3.setup(50,51);
-    axis3.setupHomingParams(true,1000, 5);
+    axis3.setup(50,51,false);
+    axis3.setupHomingParams(false,5000, 5);
     
-    axis4.setup(53,52);
+    axis4.setup(53,52,false);
     axis4.setupHomingParams(true,1000, 4);
 
-    axis5.setup(45,44);
+    axis5.setup(45,44,false);
     axis5.setupHomingParams(true,1000, 3);
     
-    axis6.setup(43,42);
+    axis6.setup(43,42,false);
     axis6.setupHomingParams(true,1000, 2);
     
     
     axises.push_back(&axis1);
     axises.push_back(&axis2);
     axises.push_back(&axis3);
-    axises.push_back(&axis4);
-    axises.push_back(&axis5);
-    axises.push_back(&axis6);
+   // axises.push_back(&axis4);
+   // axises.push_back(&axis5);
+   // axises.push_back(&axis6);
     
     
     ticker.addAxis(&axis1);
-    //ticker.addAxis(&axis2);
-     //ticker.addAxis(&axis3);
+    ticker.addAxis(&axis2);
+    ticker.addAxis(&axis3);
      //ticker.addAxis(&axis4);
      //ticker.addAxis(&axis5);
      //ticker.addAxis(&axis6);
@@ -69,23 +69,47 @@ void NPBOT::checkSerial()
         int command = serialData[0];
         if(command==0)
         {
-            Serial.println("homing");
+            
             axis1.startHoming();
-           // axis2.startHoming();
+            axis2.startHoming();
+            axis3.startHoming();
             isHomeing =true;
         
         }else if(command==1)
         {
             int maxSteps =0;
-            
-            int target = serialData[2]*10000 +serialData[3]*100+serialData[4];
+            for (int i=0;i <axises.size();i++)
+            {
+                
+                int pos =i*3 +1;
+                int target = serialData[pos]*10000 +serialData[pos+1]*100+serialData[pos+2];
            
-                       maxSteps = axis1.setTargetPos(target);
-           
+                int maxStepsTemp = axises[i]->setTargetPos(target);
+                if(maxStepsTemp>maxSteps)maxSteps =maxStepsTemp;
+                
+            }
             axis1.startStepping(maxSteps);
+            axis2.startStepping(maxSteps);
+            axis3.startStepping(maxSteps);
             ticker.setTicks(maxSteps );
             
         
+        }else if(command==2) //setPositions
+        {
+            
+            for (int i=0;i <axises.size();i++)
+            {
+                
+                int pos =i*3 +1;
+                int target = serialData[pos]*10000 +serialData[pos+1]*100+serialData[pos+2];
+                
+               axises[i]->position =target;
+               
+                
+            }
+            Serial.write(6);
+            
+            
         }
     }
 }
@@ -105,12 +129,17 @@ void NPBOT::update()
     previousMicros =currentMicros;
     if(isHomeing)
     {
-        if(!axis1.isHome){
-            axis1.stepHoming(timeStep);
+        if(!axis2.isHome || !axis3.isHome || !axis1.isHome)
+        {
+            if(!axis2.isHome)axis2.stepHoming(timeStep);
+            if(!axis3.isHome)axis3.stepHoming(timeStep);
+             if(!axis1.isHome)axis1.stepHoming(timeStep);
         }else
         {
             isHomeing =false;
-Serial.println("homing done");
+           
+            
+            Serial.write(5);
         
         }
     }

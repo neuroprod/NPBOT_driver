@@ -19,7 +19,7 @@ void Ticker::setup()
 
     pulsOn =false;
   
-    maxInterval  = 100;//micro
+    maxInterval  = 400;//micro
     float maxInterValSec =(float )maxInterval/1000000.0f; //micro to sec
     
     float maxSpeed =1.0f/maxInterValSec;  //steps/sec
@@ -42,6 +42,12 @@ void Ticker::addAxis(Axis * axis )
 }
 void Ticker::setTicks(int numTicks )
 {
+    if(numTicks==0)
+    {
+        
+        Serial.write(4);
+        return;
+    }
     startTime =0;
     ticksDone =0;
     totalTicks  =numTicks;
@@ -87,7 +93,7 @@ void Ticker::update(double timeElapsed)
             {
              axises[i]->tickOn();
             }
-       //Serial.write(1);
+      
              ticksDone ++;
             
             pulsOn =false;
@@ -105,7 +111,7 @@ void Ticker::update(double timeElapsed)
         
         }
     }
-    
+    if(ticksDone ==totalTicks) Serial.write(4);
 
 }
 

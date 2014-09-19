@@ -9,8 +9,10 @@
 #include "Axis.h"
 #include <Arduino.h>
 Axis::Axis(){}
-void Axis::setup(int _pullPin,int _dirPin)
+void Axis::setup(int _pullPin,int _dirPin, bool _inverseDir)
 {
+    
+    inverseDir = _inverseDir;
     isHome =false;
     position =0;
     pullPin  =_pullPin;
@@ -35,14 +37,20 @@ int Axis::setTargetPos(int tarPosition)
     
         dir =true;
     }
-   
+    
     return stepsTodo;
 
 }
 void Axis::startStepping (int maxAxisSteps)
 {
-     digitalWrite(dirPin, dir);
     
+    
+    if(inverseDir){
+     digitalWrite(dirPin, !dir);
+    }else
+    {
+    digitalWrite(dirPin, dir);
+    }
     
     dx =maxAxisSteps;
     dy = stepsTodo;
@@ -121,6 +129,12 @@ void Axis::setupHomingParams(bool _dir,int _stepDelay, int _homePin)
 }
 void Axis::startHoming()
 {
+    if(digitalRead(homePin))
+    {
+        isHome =true;
+        return;
+    }
+    
     homeTime =0;
     isHome =false;
     digitalWrite(dirPin, homeDir );
@@ -138,7 +152,7 @@ void Axis::stepHoming(double timeElapsed)
         if(homePullToggle)
         {
             digitalWrite(pullPin, HIGH);
-            Serial.println("h");
+            
         
         }else
         {

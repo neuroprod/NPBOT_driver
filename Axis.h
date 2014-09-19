@@ -14,7 +14,7 @@ class Axis
 public:
     Axis();
 
-    void setup(int _pullPin,int _dirPin);
+    void setup(int _pullPin,int _dirPin,bool inverseDir);
     
     
     void setSteps (int steps,bool dir,int maxAxisSteps);
@@ -27,7 +27,7 @@ public:
     
     void tickOff();
     
-    
+    bool inverseDir;
     bool dir;
     int pullPin;
     int dirPin;
