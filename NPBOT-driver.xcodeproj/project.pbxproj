@@ -14,20 +14,40 @@
 		012A568D19C41BCB006BFC1C /* NPBOT.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NPBOT.cpp; sourceTree = "<group>"; };
 		012A568E19C41BCB006BFC1C /* NPBOT.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NPBOT.h; sourceTree = "<group>"; };
 		012A568F19C42462006BFC1C /* Vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		01B2E42D19D1691B006E8BD5 /* Hand.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Hand.cpp; sourceTree = "<group>"; };
+		01B2E42E19D1691B006E8BD5 /* Hand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hand.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		012A568219C41B84006BFC1C = {
 			isa = PBXGroup;
 			children = (
+				01B2E42C19D168FC006E8BD5 /* handDriver */,
+				01B2E42B19D168E3006E8BD5 /* main driver */,
+			);
+			sourceTree = "<group>";
+		};
+		01B2E42B19D168E3006E8BD5 /* main driver */ = {
+			isa = PBXGroup;
+			children = (
 				012A568D19C41BCB006BFC1C /* NPBOT.cpp */,
 				012A568E19C41BCB006BFC1C /* NPBOT.h */,
 				012A568B19C41BB2006BFC1C /* Axis.cpp */,
 				012A568C19C41BB2006BFC1C /* Axis.h */,
-				012A568919C41B9D006BFC1C /* Ticker.cpp */,
 				012A568A19C41B9D006BFC1C /* Ticker.h */,
 				012A568F19C42462006BFC1C /* Vector.h */,
+				012A568919C41B9D006BFC1C /* Ticker.cpp */,
 			);
+			name = "main driver";
+			sourceTree = "<group>";
+		};
+		01B2E42C19D168FC006E8BD5 /* handDriver */ = {
+			isa = PBXGroup;
+			children = (
+				01B2E42D19D1691B006E8BD5 /* Hand.cpp */,
+				01B2E42E19D1691B006E8BD5 /* Hand.h */,
+			);
+			name = handDriver;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

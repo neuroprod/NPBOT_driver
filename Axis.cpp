@@ -131,8 +131,12 @@ void Axis::startHoming()
 {
     if(digitalRead(homePin))
     {
+        delay(2);
+        if(digitalRead(homePin))
+        {
         isHome =true;
         return;
+        }
     }
     
     homeTime =0;
@@ -157,10 +161,17 @@ void Axis::stepHoming(double timeElapsed)
         }else
         {
             digitalWrite(pullPin, LOW);
-            if(digitalRead(homePin))
+            if(digitalRead(homePin)) //ugly triple check
             {
-                isHome =true;
-            
+                delay(2);
+                if(digitalRead(homePin))
+                {   delay(2);
+                    if(digitalRead(homePin))
+                    {
+                    isHome =true;
+                    }
+                
+                }
             }
         
         }

@@ -31,29 +31,29 @@ void NPBOT::setup()
     axis3.setupHomingParams(false,5000, 5);
     
     axis4.setup(53,52,false);
-    axis4.setupHomingParams(true,1000, 4);
+    axis4.setupHomingParams(false,5000, 4);
 
     axis5.setup(45,44,false);
-    axis5.setupHomingParams(true,1000, 3);
+    axis5.setupHomingParams(false,5000, 2);
     
     axis6.setup(43,42,false);
-    axis6.setupHomingParams(true,1000, 2);
+    axis6.setupHomingParams(true,5000, 3);
     
     
     axises.push_back(&axis1);
     axises.push_back(&axis2);
     axises.push_back(&axis3);
-   // axises.push_back(&axis4);
-   // axises.push_back(&axis5);
-   // axises.push_back(&axis6);
+   axises.push_back(&axis4);
+   axises.push_back(&axis5);
+    axises.push_back(&axis6);
     
     
     ticker.addAxis(&axis1);
     ticker.addAxis(&axis2);
     ticker.addAxis(&axis3);
-     //ticker.addAxis(&axis4);
-     //ticker.addAxis(&axis5);
-     //ticker.addAxis(&axis6);
+    ticker.addAxis(&axis4);
+    ticker.addAxis(&axis5);
+    ticker.addAxis(&axis6);
     
     ticker.setup();
 }
@@ -73,6 +73,9 @@ void NPBOT::checkSerial()
             axis1.startHoming();
             axis2.startHoming();
             axis3.startHoming();
+            axis4.startHoming();
+            axis5.startHoming();
+            axis6.startHoming();
             isHomeing =true;
         
         }else if(command==1)
@@ -91,6 +94,9 @@ void NPBOT::checkSerial()
             axis1.startStepping(maxSteps);
             axis2.startStepping(maxSteps);
             axis3.startStepping(maxSteps);
+             axis4.startStepping(maxSteps);
+             axis5.startStepping(maxSteps);
+             axis6.startStepping(maxSteps);
             ticker.setTicks(maxSteps );
             
         
@@ -129,11 +135,25 @@ void NPBOT::update()
     previousMicros =currentMicros;
     if(isHomeing)
     {
-        if(!axis2.isHome || !axis3.isHome || !axis1.isHome)
+       /* if(!axis6.isHome )
+        {
+            if(!axis6.isHome)axis6.stepHoming(timeStep);
+            
+        }*/
+       if(!axis1.isHome)axis1.stepHoming(timeStep);
+        
+        
+         if(!axis4.isHome || !axis5.isHome )
+        {
+            if(!axis4.isHome)axis4.stepHoming(timeStep);
+             if(!axis5.isHome)axis5.stepHoming(timeStep);
+            
+        }
+        else if(!axis2.isHome || !axis3.isHome || !axis1.isHome)
         {
             if(!axis2.isHome)axis2.stepHoming(timeStep);
             if(!axis3.isHome)axis3.stepHoming(timeStep);
-             if(!axis1.isHome)axis1.stepHoming(timeStep);
+            
         }else
         {
             isHomeing =false;
