@@ -10,6 +10,7 @@
 #define __NPBOT_driver__NPBOT__
 #include <Arduino.h>
 #include "Ticker.h"
+#include "Hand.h"
 #include "Axis.h"
 class NPBOT
 {

@@ -37,7 +37,7 @@ void NPBOT::setup()
     axis5.setupHomingParams(false,5000, 2);
     
     axis6.setup(43,42,false);
-    axis6.setupHomingParams(true,5000, 3);
+    axis6.setupHomingParams(false,1000, 3);
     
     
     axises.push_back(&axis1);
@@ -135,16 +135,13 @@ void NPBOT::update()
     previousMicros =currentMicros;
     if(isHomeing)
     {
-       /* if(!axis6.isHome )
-        {
-            if(!axis6.isHome)axis6.stepHoming(timeStep);
-            
-        }*/
+      
        if(!axis1.isHome)axis1.stepHoming(timeStep);
         
         
-         if(!axis4.isHome || !axis5.isHome )
+         if(!axis4.isHome || !axis5.isHome || !axis6.isHome)
         {
+             if(!axis6.isHome)axis6.stepHoming(timeStep);
             if(!axis4.isHome)axis4.stepHoming(timeStep);
              if(!axis5.isHome)axis5.stepHoming(timeStep);
             

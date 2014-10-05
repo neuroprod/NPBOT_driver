@@ -24,6 +24,12 @@ public:
 
     Servo servo1;
     Servo servo2;
+    
+    int servo1pos;
+    int servo2pos;
+    int gripTargetLow;
+    int gripTargetHigh;
+    int gripType ;
 };
 
 #endif /* defined(__NPBOT_driver__NPBOT_handdriver__) */
