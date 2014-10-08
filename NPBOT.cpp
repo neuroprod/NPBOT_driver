@@ -15,20 +15,22 @@ NPBOT::NPBOT() : serialEnd(  0xff ){}
 void NPBOT::setup()
 {
 
-
+    sendCount=0;
 
     Serial.begin(115200);
     isHomeing =false;
+    isFullHome =false;
     previousMicros =0;
+    sendTime =0;
     // pull - dir
     axis1.setup(48,49,true);
     axis1.setupHomingParams(false,1000, 7);
     
     axis2.setup(47,46,false);
-    axis2.setupHomingParams(true,5000, 6);
+    axis2.setupHomingParams(true,2500, 6);
     
     axis3.setup(50,51,false);
-    axis3.setupHomingParams(false,5000, 5);
+    axis3.setupHomingParams(false,2500, 5);
     
     axis4.setup(53,52,false);
     axis4.setupHomingParams(false,5000, 4);
@@ -78,8 +80,9 @@ void NPBOT::checkSerial()
             axis6.startHoming();
             isHomeing =true;
         
-        }else if(command==1)
+        }else if(command==1 && isFullHome)
         {
+            
             int maxSteps =0;
             for (int i=0;i <axises.size();i++)
             {
@@ -114,25 +117,57 @@ void NPBOT::checkSerial()
                 
             }
             Serial.write(6);
-            
-            
+            Serial.write(0xFF);
+            isFullHome =true;
         }
     }
 }
+void NPBOT::sendData()
+{
 
+    
+    if(axises[sendCount]->changed)
+    {
+        axises[sendCount]->changed =false;
+        int position = axises[sendCount]->position;
+        Serial.write(10);
+        float workVal = (float) position;
+        int val1 = floor(workVal/10000);
+        workVal -= val1*10000;
+        int val2 = floor(workVal/100);
+        workVal -= val2*100;
+        
+        int val3 = workVal;
+        Serial.write((uint8_t)sendCount);
+        Serial.write((uint8_t)val1);
+        Serial.write((uint8_t)val2);
+        Serial.write((uint8_t)val3);
+        Serial.write(0xFF);
+        
+    
+    
+    }
+    sendCount++;
+    
+    if(sendCount>5)sendCount=0;
+    sendTime =0;
+
+}
 void NPBOT::update()
 {
    
-    
-    checkSerial();
-    
-  
-    
-    
-    
     unsigned long currentMicros = micros();
     unsigned long timeStep = currentMicros- previousMicros;
     previousMicros =currentMicros;
+    
+    
+    checkSerial();
+    sendTime+=timeStep;
+    if(sendTime>5000)sendData();
+    
+    
+    
+   
     if(isHomeing)
     {
       
@@ -157,6 +192,7 @@ void NPBOT::update()
            
             
             Serial.write(5);
+            Serial.write(0xFF);
         
         }
     }

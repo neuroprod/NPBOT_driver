@@ -111,7 +111,9 @@ void Ticker::update(double timeElapsed)
         
         }
     }
-    if(ticksDone ==totalTicks) Serial.write(4);
+    if(ticksDone ==totalTicks) {
+     Serial.write(4);Serial.write(0xFF);
+    }
 
 }
 

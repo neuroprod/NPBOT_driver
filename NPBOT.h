@@ -21,7 +21,8 @@ public:
     void setup();
     void update();
     void checkSerial();
-
+    void sendData();
+    int sendCount;
     
     Ticker ticker;
     Axis axis1;
@@ -30,11 +31,11 @@ public:
     Axis axis4;
     Axis axis5;
     Axis axis6;
-  
+    bool isFullHome;
     unsigned long previousMicros ;
     bool isHomeing;
     Vector<Axis *> axises;
-    
+    int sendTime;
     
     char serialData[80];
      char serialEnd ;

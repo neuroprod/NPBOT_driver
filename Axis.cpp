@@ -104,7 +104,7 @@ void Axis::tickOn()
             position--;
         }
         px=px+2*(dy-dx);
-
+        changed =true;
     }
 }
 

@@ -38,7 +38,7 @@ public:
     int dy;
     int px;
     int py;
-    
+    bool changed;
     
     ////homeing
     void setupHomingParams(bool dir,int stepDelay,int homePin);
