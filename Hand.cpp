@@ -11,7 +11,7 @@
 void Hand::setup()
 {
 
-    Serial.begin(9600);
+    Serial.begin(115200);
     servo1.attach(6);
     servo2.attach(7);
    
