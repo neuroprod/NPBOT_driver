@@ -46,6 +46,7 @@ void Ticker::setTicks(int numTicks )
     {
         
         Serial.write(4);
+         Serial.write(0xff);
         return;
     }
     startTime =0;
